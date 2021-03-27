@@ -20,7 +20,7 @@ class AndroidNotificationChannel {
     this.showBadge = true,
     this.enableLights = false,
     this.ledColor,
-		this.channelAction = AndroidNotificationChannelAction.CreateIfNotExists,
+		this.channelAction = AndroidNotificationChannelAction.createIfNotExists,
   });
 
   /// The channel's id.
@@ -84,44 +84,7 @@ class AndroidNotificationChannel {
 
   /// The action to take for managing notification channels.
   ///
-  /// Defaults to creating the notification channel using the provided details if it doesn't exist
+  /// Defaults to creating the notification channel
+  /// using the provided details if it doesn't exist
   final AndroidNotificationChannelAction channelAction;
-
-  /// Creates a [Map] object that describes the [AndroidNotificationChannel] object.
-  ///
-  /// Mainly for internal use to send the data over a platform channel.
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'name': name,
-      'description': description,
-      'showBadge': showBadge,
-      'importance': importance.value,
-      'playSound': playSound,
-      'enableVibration': enableVibration,
-      'vibrationPattern': vibrationPattern,
-      'enableLights': enableLights,
-      'ledColorAlpha': ledColor?.alpha,
-      'ledColorRed': ledColor?.red,
-      'ledColorGreen': ledColor?.green,
-      'ledColorBlue': ledColor?.blue,
-      'channelAction': channelAction?.index,
-    }..addAll(_convertSoundToMap());
-  }
-
-  Map<String, dynamic> _convertSoundToMap() {
-    if (sound is RawResourceAndroidNotificationSound) {
-      return <String, dynamic>{
-        'sound': sound.sound,
-        'soundSource': AndroidNotificationSoundSource.RawResource.index,
-      };
-    } else if (sound is UriAndroidNotificationSound) {
-      return <String, dynamic>{
-        'sound': sound.sound,
-        'soundSource': AndroidNotificationSoundSource.Uri.index,
-      };
-    } else {
-      return <String, dynamic>{};
-    }
-  }
 }
